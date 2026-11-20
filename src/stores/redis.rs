@@ -307,11 +307,9 @@ impl RedisCommands for RedisFake {
         Box::pin(async move {
             let mut store = self.storage.write().await;
             if let Some((value, expiration)) = store.get(key) {
-                if let Some(expiry_instant) = expiration {
-                    if Instant::now() >= *expiry_instant {
-                        store.remove(key);
-                        return Ok(None);
-                    }
+                if expiration.is_some_and(|expiry_instant| Instant::now() >= expiry_instant) {
+                    store.remove(key);
+                    return Ok(None);
                 }
                 Ok(Some(value.clone()))
             } else {
@@ -425,10 +423,8 @@ impl RedisCommands for RedisFake {
             let matched: Vec<String> = store
                 .iter()
                 .filter(|(key, (_, expiry))| {
-                    if let Some(expiry_instant) = expiry {
-                        if now >= *expiry_instant {
-                            return false;
-                        }
+                    if expiry.is_some_and(|expiry_instant| now >= expiry_instant) {
+                        return false;
                     }
                     key.starts_with(prefix)
                 })
