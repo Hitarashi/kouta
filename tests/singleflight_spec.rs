@@ -6,7 +6,7 @@ use std::{
     time::Duration,
 };
 
-use cache::{Cache, CacheError, MemoryCacheStore};
+use kouta::{Cache, CacheError, MemoryCacheStore};
 
 #[tokio::test]
 async fn test_singleflight_stampede_defense() {
@@ -16,7 +16,7 @@ async fn test_singleflight_stampede_defense() {
     let execution_count = Arc::new(AtomicUsize::new(0));
 
     let mut handles = Vec::new();
-    for _ in 0..20 {
+    while handles.len() < 20 {
         let cache_clone = Arc::clone(&cache);
         let exec_count = Arc::clone(&execution_count);
 
@@ -74,7 +74,7 @@ async fn test_singleflight_concurrent_followers_receive_error() {
     let cache = Arc::new(Cache::new(store));
 
     let mut handles = Vec::new();
-    for _ in 0..5 {
+    while handles.len() < 5 {
         let cache_clone = Arc::clone(&cache);
         handles.push(tokio::spawn(async move {
             cache_clone

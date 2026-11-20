@@ -2,8 +2,9 @@
 
 use std::{sync::Arc, time::Duration};
 
-use cache::{CacheEntry, CacheStore, MemoryCacheStore, RedisCacheStore, TieredCacheStore};
-use redis::RedisFake;
+use kouta::{
+    CacheEntry, CacheStore, MemoryCacheStore, RedisCacheStore, RedisFake, TieredCacheStore,
+};
 
 #[tokio::test]
 async fn test_tiered_cache_store_flow_and_backfill() {
@@ -113,7 +114,7 @@ async fn test_tiered_cache_store_flow_and_backfill() {
 #[tokio::test]
 async fn test_tiered_cache_store_fallback_insurance() {
     let memory = MemoryCacheStore::new();
-    let null_store = Arc::new(cache::NullCacheStore::new());
+    let null_store = Arc::new(kouta::NullCacheStore::new());
 
     // Tiered with Null as L2 simulating missing remote entries.
     let tiered = TieredCacheStore::new(memory.clone(), null_store)
@@ -142,9 +143,9 @@ impl CacheStore for FailingStore {
     fn get<'a>(
         &'a self,
         key: &'a str,
-    ) -> cache::store::BoxFuture<'a, Result<Option<CacheEntry>, cache::CacheError>> {
-        let _ = key;
-        Box::pin(async { Err(cache::CacheError::Store("down".to_string())) })
+    ) -> kouta::store::BoxFuture<'a, Result<Option<CacheEntry>, kouta::CacheError>> {
+        let reason = format!("store down for {key}");
+        Box::pin(async move { Err(kouta::CacheError::Store(reason)) })
     }
 
     fn put<'a>(
@@ -152,9 +153,9 @@ impl CacheStore for FailingStore {
         key: &'a str,
         entry: &'a CacheEntry,
         ttl: Duration,
-    ) -> cache::store::BoxFuture<'a, Result<(), cache::CacheError>> {
-        let _ = (key, entry, ttl);
-        Box::pin(async { Err(cache::CacheError::Store("down".to_string())) })
+    ) -> kouta::store::BoxFuture<'a, Result<(), kouta::CacheError>> {
+        let reason = format!("store down for {key} with ttl {ttl:?} and entry {entry:?}");
+        Box::pin(async move { Err(kouta::CacheError::Store(reason)) })
     }
 
     fn add<'a>(
@@ -162,33 +163,33 @@ impl CacheStore for FailingStore {
         key: &'a str,
         entry: &'a CacheEntry,
         ttl: Duration,
-    ) -> cache::store::BoxFuture<'a, Result<bool, cache::CacheError>> {
-        let _ = (key, entry, ttl);
-        Box::pin(async { Err(cache::CacheError::Store("down".to_string())) })
+    ) -> kouta::store::BoxFuture<'a, Result<bool, kouta::CacheError>> {
+        let reason = format!("store down for {key} with ttl {ttl:?} and entry {entry:?}");
+        Box::pin(async move { Err(kouta::CacheError::Store(reason)) })
     }
 
     fn pull<'a>(
         &'a self,
         key: &'a str,
-    ) -> cache::store::BoxFuture<'a, Result<Option<CacheEntry>, cache::CacheError>> {
-        let _ = key;
-        Box::pin(async { Err(cache::CacheError::Store("down".to_string())) })
+    ) -> kouta::store::BoxFuture<'a, Result<Option<CacheEntry>, kouta::CacheError>> {
+        let reason = format!("store down for {key}");
+        Box::pin(async move { Err(kouta::CacheError::Store(reason)) })
     }
 
     fn forget<'a>(
         &'a self,
         key: &'a str,
-    ) -> cache::store::BoxFuture<'a, Result<bool, cache::CacheError>> {
-        let _ = key;
-        Box::pin(async { Err(cache::CacheError::Store("down".to_string())) })
+    ) -> kouta::store::BoxFuture<'a, Result<bool, kouta::CacheError>> {
+        let reason = format!("store down for {key}");
+        Box::pin(async move { Err(kouta::CacheError::Store(reason)) })
     }
 
     fn forget_many<'a>(
         &'a self,
         keys: &'a [&'a str],
-    ) -> cache::store::BoxFuture<'a, Result<usize, cache::CacheError>> {
-        let _ = keys;
-        Box::pin(async { Err(cache::CacheError::Store("down".to_string())) })
+    ) -> kouta::store::BoxFuture<'a, Result<usize, kouta::CacheError>> {
+        let reason = format!("store down for {} keys", keys.len());
+        Box::pin(async move { Err(kouta::CacheError::Store(reason)) })
     }
 
     fn increment<'a>(
@@ -196,13 +197,13 @@ impl CacheStore for FailingStore {
         key: &'a str,
         amount: i64,
         ttl: Duration,
-    ) -> cache::store::BoxFuture<'a, Result<i64, cache::CacheError>> {
-        let _ = (key, amount, ttl);
-        Box::pin(async { Err(cache::CacheError::Store("down".to_string())) })
+    ) -> kouta::store::BoxFuture<'a, Result<i64, kouta::CacheError>> {
+        let reason = format!("store down for {key} with amount {amount} and ttl {ttl:?}");
+        Box::pin(async move { Err(kouta::CacheError::Store(reason)) })
     }
 
-    fn flush(&self) -> cache::store::BoxFuture<'_, Result<(), cache::CacheError>> {
-        Box::pin(async { Err(cache::CacheError::Store("down".to_string())) })
+    fn flush(&self) -> kouta::store::BoxFuture<'_, Result<(), kouta::CacheError>> {
+        Box::pin(async { Err(kouta::CacheError::Store("down".to_string())) })
     }
 }
 

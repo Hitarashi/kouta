@@ -1,8 +1,8 @@
-# `cache` Crate Context & Architecture
+# `kouta` Context & Architecture
 
 ## Vision & Scope
 
-The `cache` crate provides a unified, high-performance, multi-driver caching engine for the Druto web framework.
+The `kouta` crate provides a unified, high-performance, framework-agnostic multi-driver caching engine for Rust.
 It combines sub-microsecond in-memory performance with horizontally scalable distributed caching, resilient
 stampede defense, stale-while-revalidate (SWR) grace periods, tag-based invalidation, and cross-node cache
 synchronization. It operates both as an independent caching substrate across background workers and services, and as

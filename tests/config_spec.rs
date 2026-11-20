@@ -1,6 +1,6 @@
 use std::{path::PathBuf, time::Duration};
 
-use cache::{CacheConfig, DEFAULT_CACHE_TTL, StoreConfig};
+use kouta::{CacheConfig, DEFAULT_CACHE_TTL, StoreConfig};
 
 #[test]
 fn test_cache_config_builder_and_defaults() {

@@ -1,6 +1,6 @@
 use std::{sync::Arc, time::Duration};
 
-use cache::{Cache, CacheConfig, CacheError, CacheManager, MemoryCacheStore, StoreConfig};
+use kouta::{Cache, CacheConfig, CacheError, CacheManager, MemoryCacheStore, StoreConfig};
 
 #[tokio::test]
 async fn test_cache_manager_named_stores_and_default() {

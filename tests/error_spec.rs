@@ -1,6 +1,6 @@
 use std::error::Error;
 
-use cache::CacheError;
+use kouta::CacheError;
 
 #[test]
 fn test_cache_error_display_and_source() {
@@ -33,7 +33,7 @@ fn test_cache_error_display_and_source() {
 
     #[cfg(feature = "redis")]
     {
-        let redis_err = redis::RedisError::connection("redis bad connection");
+        let redis_err = fred::error::Error::new(fred::error::ErrorKind::IO, "redis bad connection");
         let converted = CacheError::from(redis_err);
         assert!(format!("{converted}").contains("redis bad connection"));
     }

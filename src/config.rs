@@ -24,7 +24,7 @@ pub enum StoreConfig {
     /// Distributed Redis cache driver.
     #[cfg(feature = "redis")]
     Redis {
-        /// Key prefix for cache entries (defaults to `druto:cache:`).
+        /// Key prefix for cache entries (defaults to `kouta:cache:`).
         prefix: Option<String>,
     },
     /// Hybrid tiered cache driver combining in-memory L1 and distributed L2.
@@ -42,7 +42,7 @@ pub enum StoreConfig {
     Null,
 }
 
-/// Global framework caching configuration.
+/// Caching configuration.
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct CacheConfig {
     /// The name of the default cache store to use when none is explicitly requested.

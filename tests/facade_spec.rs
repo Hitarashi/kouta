@@ -3,7 +3,7 @@ use std::{
     time::Duration,
 };
 
-use cache::{Cache, CacheEvent, CacheStore, CacheTier, MemoryCacheStore};
+use kouta::{Cache, CacheEvent, CacheStore, CacheTier, MemoryCacheStore};
 
 #[tokio::test]
 async fn test_cache_facade_features_and_events() {
@@ -39,7 +39,7 @@ async fn test_cache_facade_features_and_events() {
     // 5. Remember forever.
     let remembered: String = cache
         .remember_forever("forever_item", || async {
-            Ok::<String, cache::CacheError>("eternal".to_string())
+            Ok::<String, kouta::CacheError>("eternal".to_string())
         })
         .await
         .unwrap();
@@ -172,7 +172,7 @@ async fn test_cache_with_prefix_and_grace_period_hit() {
     assert!(store.get("tenant:settings").await.unwrap().is_some());
 
     // Put a graced entry directly to verify CacheTier::Graced event on hit
-    let graced_entry = cache::CacheEntry::from_value(
+    let graced_entry = kouta::CacheEntry::from_value(
         &"graced_val",
         Duration::from_millis(10),
         Duration::from_secs(60),

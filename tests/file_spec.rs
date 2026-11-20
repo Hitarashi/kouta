@@ -1,10 +1,10 @@
 use std::time::Duration;
 
-use cache::{CacheEntry, CacheStore, FileCacheStore};
+use kouta::{CacheEntry, CacheStore, FileCacheStore};
 
 #[tokio::test]
 async fn test_file_store_crud() {
-    let temp_dir = std::env::temp_dir().join(format!("druto_cache_test_{}", std::process::id()));
+    let temp_dir = std::env::temp_dir().join(format!("kouta_cache_test_{}", std::process::id()));
     let store = FileCacheStore::new(&temp_dir).unwrap();
 
     let entry = CacheEntry::from_value(

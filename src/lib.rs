@@ -1,9 +1,10 @@
-//! Unified multi-driver caching engine for the Druto web framework.
+//! High-performance, multi-driver, multi-tier caching library for Rust.
 //!
 //! Provides in-memory, distributed, and multi-tier caching abstractions with
-//! single-flight stampede defense, soft TTL grace periods, and tag-based invalidation.
+//! single-flight stampede defense, soft TTL grace periods (Stale-While-Revalidate),
+//! and tag-based invalidation.
 
-#![doc(html_root_url = "https://docs.rs/druto-cache/0.1.0")]
+#![doc(html_root_url = "https://docs.rs/kouta/0.1.0")]
 
 pub mod cache;
 pub mod config;
@@ -26,5 +27,8 @@ pub use singleflight::SingleFlight;
 pub use store::{BoxFuture, CacheStore};
 pub use stores::{FileCacheStore, MemoryCacheStore, NullCacheStore, TieredCacheStore};
 #[cfg(feature = "redis")]
-pub use stores::{RedisCacheStore, redis::DEFAULT_REDIS_KEY_PREFIX};
+pub use stores::{
+    RedisCacheStore,
+    redis::{DEFAULT_REDIS_KEY_PREFIX, RedisCommands, RedisFake},
+};
 pub use tag::{format_tag_key, invalidate_tags, is_entry_tag_valid, is_tag_key};

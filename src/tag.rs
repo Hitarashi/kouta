@@ -9,7 +9,7 @@ use crate::{
 };
 
 /// Key prefix for tag invalidation timestamp records.
-pub const TAG_KEY_PREFIX: &str = "__druto_tag:";
+pub const TAG_KEY_PREFIX: &str = "kouta:tag:";
 
 /// Formats the storage key used to track invalidation timestamps for a given tag.
 #[must_use]

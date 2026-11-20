@@ -2,8 +2,9 @@
 
 use std::{sync::Arc, time::Duration};
 
-use cache::{CacheEntry, CacheStore, DEFAULT_REDIS_KEY_PREFIX, RedisCacheStore};
-use redis::{RedisCommands, RedisFake};
+use kouta::{
+    CacheEntry, CacheStore, DEFAULT_REDIS_KEY_PREFIX, RedisCacheStore, RedisCommands, RedisFake,
+};
 
 #[tokio::test]
 async fn test_redis_cache_store_crud() {
@@ -11,7 +12,7 @@ async fn test_redis_cache_store_crud() {
     let store = RedisCacheStore::new(fake_redis.clone());
 
     assert_eq!(store.prefix(), DEFAULT_REDIS_KEY_PREFIX);
-    assert_eq!(store.format_key("user:1"), "druto:cache:user:1");
+    assert_eq!(store.format_key("user:1"), "kouta:cache:user:1");
     assert!(store.client().ping().await.is_ok());
 
     let entry = CacheEntry::from_value(

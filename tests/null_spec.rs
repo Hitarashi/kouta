@@ -1,6 +1,6 @@
 use std::time::Duration;
 
-use cache::{CacheEntry, CacheStore, NullCacheStore};
+use kouta::{CacheEntry, CacheStore, NullCacheStore};
 
 #[tokio::test]
 async fn test_null_store_all_methods() {

@@ -6,7 +6,7 @@ use std::{
     time::Duration,
 };
 
-use cache::{Cache, CacheError, MemoryCacheStore};
+use kouta::{Cache, CacheError, MemoryCacheStore};
 
 #[tokio::test]
 async fn test_stale_while_revalidate_grace_period() {

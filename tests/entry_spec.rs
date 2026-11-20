@@ -1,6 +1,6 @@
 use std::time::Duration;
 
-use cache::{CacheEntry, current_unix_timestamp_ms};
+use kouta::{CacheEntry, current_unix_timestamp_ms};
 
 #[test]
 fn test_cache_entry_methods_and_errors() {

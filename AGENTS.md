@@ -1,10 +1,10 @@
-# `cache` Agent Instructions
+# `kouta` Agent Instructions
 
 ## Scope
 
 This crate owns multi-driver caching backends, multi-tier storage coordination (L1 memory + L2 Redis), single-flight
-cache stampede defense, soft TTL / stale-while-revalidate grace periods, timestamp-based tag invalidation, and
-cross-node pub/sub cache synchronization for Druto.
+cache stampede defense, soft TTL / stale-while-revalidate grace periods, and timestamp-based tag invalidation
+for Rust applications.
 
 ## Design Rules
 

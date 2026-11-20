@@ -50,7 +50,13 @@ impl std::error::Error for CacheError {
     fn source(&self) -> Option<&(dyn std::error::Error + 'static)> {
         match self {
             Self::Io(error) => Some(error),
-            _ => None,
+            Self::Serialization(_)
+            | Self::Deserialization(_)
+            | Self::Store(_)
+            | Self::StoreUnavailable(_)
+            | Self::Config(_)
+            | Self::LockPoisoned(_)
+            | Self::StoreNotFound(_) => None,
         }
     }
 }
@@ -62,8 +68,8 @@ impl From<std::io::Error> for CacheError {
 }
 
 #[cfg(feature = "redis")]
-impl From<redis::RedisError> for CacheError {
-    fn from(error: redis::RedisError) -> Self {
+impl From<fred::error::Error> for CacheError {
+    fn from(error: fred::error::Error) -> Self {
         Self::Store(error.to_string())
     }
 }

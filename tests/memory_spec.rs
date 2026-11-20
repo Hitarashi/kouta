@@ -3,7 +3,7 @@ use std::{
     time::Duration,
 };
 
-use cache::{CacheEntry, CacheStore, MemoryCacheStore};
+use kouta::{CacheEntry, CacheStore, MemoryCacheStore};
 
 #[tokio::test]
 async fn test_memory_store_crud() {

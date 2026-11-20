@@ -1,6 +1,6 @@
 use std::{sync::Arc, time::Duration};
 
-use cache::{Cache, MemoryCacheStore};
+use kouta::{Cache, MemoryCacheStore};
 
 #[tokio::test]
 async fn test_tag_invalidation_vectors() {
